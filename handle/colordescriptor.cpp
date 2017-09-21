@@ -56,7 +56,7 @@ namespace ImageHandle {
 		std::cout<<"handle a image:<height,width,size>:"<<h<<","<<w<<","<<image.size()<<"byte"<<",number offeatures:"<<vect.size()<<std::endl;
 	}
 
-	void ColorDescriptor::histogram(Mat &image, InputArray &mask, std::vector<double>& vect){
+	void ColorDescriptor::histogram(Mat &image, InputArray mask, std::vector<double>& vect){
 
 		int hbins = 8, sbins = 12, vbins = 3;
 		int histSize[] = {hbins, sbins, vbins};  //h,s,v对应的值  h*s*v=288个double的数组

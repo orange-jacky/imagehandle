@@ -16,7 +16,7 @@ namespace ImageHandle {
 		~ColorDescriptor(){};
 		int* histSize;
 		void describe(const std::string& image, std::vector<double>& vect);
-		void histogram(Mat &mat, InputArray &mask, std::vector<double>& vect);
+		void histogram(Mat &mat, InputArray mask, std::vector<double>& vect);
 	};
 	bool isNan(double fN);
 	bool isInf(double fN);
