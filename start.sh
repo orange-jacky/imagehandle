@@ -1,1 +1,1 @@
-nohup ./imagehandle  >stdout_`date +%Y%m%d-%H:%M:%d`.log 2>&1 &
+nohup ./imagehandle conf/conf.xml  >stdout_`date +%Y%m%d-%H:%M:%d`.log 2>&1 &
