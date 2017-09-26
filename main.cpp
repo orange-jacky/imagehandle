@@ -5,19 +5,20 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
-
+#include <boost/lexical_cast.hpp>
 #include "handle/colordescriptor.h"
 #include "thrift/gen-cpp/Handler.h"
-
+#include "util/configure.h"
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
+using boost::lexical_cast;
 using boost::shared_ptr;
-
 using namespace  ::ImageHandle;
+using namespace ::ImageHandle::util;
 
 class HandlerHandler : virtual public HandlerIf {
  public:
@@ -46,14 +47,19 @@ class HandlerHandler : virtual public HandlerIf {
   }
 };
 
-
 int main(int argc, char **argv) {
-  int port = 9091;
-  shared_ptr<HandlerHandler> handler(new HandlerHandler());
-  shared_ptr<TProcessor> processor(new HandlerProcessor(handler));
-  shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
-  shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
-  shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+  Configure* conf = Configure::getInstance();
+  int status = conf->Parse(argv[1]);
+  if( status != 0 ) {
+    std::cout<<"parse "<< argv[1] <<" fail"<<std::endl;
+    return status;
+  }
+  int port = lexical_cast<int>(conf->c.port);
+  boost::shared_ptr<HandlerHandler> handler(new HandlerHandler());
+  boost::shared_ptr<TProcessor> processor(new HandlerProcessor(handler));
+  boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));
+  boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+  boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
 
   TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
   server.serve();

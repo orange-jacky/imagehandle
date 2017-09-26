@@ -1,8 +1,10 @@
 #引入thrift的头文件,库,包
 pkg_check_modules(THRIFT thrift)
-include_directories( ${THRIFT_INCLUDE_DIRS})
-set(THRIDPARTY_LIB_PATH ${THRIDPARTY_LIB_PATH} ${THRIFT_LIBRARY_DIRS} PARENT_SCOPE)
-set(THRIDPARTY_LIB ${THRIDPARTY_LIB} ${THRIFT_LIBRARIES} PARENT_SCOPE)
+include_directories( ${THRIFT_INCLUDE_DIRS} )
+link_directories( ${THRIFT_LIBRARY_DIRS} )
+set(THRIFT_LIBS thrift)
+
+#message(STATUS "${THRIFT_INCLUDE_DIRS} ${THRIFT_LIBRARY_DIRS} ${THRIFT_LIBS}")
 
 #thrift
 message(STATUS "Use thrift file to generate cpp code")
@@ -26,4 +28,5 @@ set(THRIFT_SRC_FILES
 )
 
 #生成库
-add_library( MyThrift STATIC ${THRIFT_SRC_FILES})
+add_library( mythrift STATIC ${THRIFT_SRC_FILES})
+target_link_libraries(mythrift ${THRIFT_LIBS})

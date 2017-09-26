@@ -1,3 +1,7 @@
 iamgehandle
 sftp-config.json
+
 build/
+thridparty/*.zip
+
+

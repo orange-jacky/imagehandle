@@ -10,11 +10,7 @@
 3.编译
 	mkdir build
 	cd build
-		cmake ..
-		#debug版本
-		cmake -D CMAKE_BUILD_TYPE=debug  ..
-		#release版本
-		cmake -D CMAKE_BUILD_TYPE=release  ..
+	cmake ..
 	make
 4.启动服务
 ./start.sh
