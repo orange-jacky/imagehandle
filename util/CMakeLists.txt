@@ -7,4 +7,5 @@ set(UTIL_SRC_FILES
 
 #生成库
 add_library( util STATIC ${UTIL_SRC_FILES})
+add_dependencies(util ${TINYXML2_PREFIX})   #util库依赖tinyxml2库,tinyxml2必须先编译
 target_link_libraries(util ${TINYXML2_LIBS})
