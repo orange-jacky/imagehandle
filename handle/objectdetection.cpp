@@ -30,55 +30,63 @@ namespace ImageHandle{
 		 std::vector<char> vec_data(&image[0], &image[0]+ image.size());
 		 Mat img, blob, detections;
 		 img = imdecode(Mat(vec_data), 1);
-		 blob = cv::dnn::blobFromImage(img, 0.007843, Size(300, 300));
+		 int h =  img.rows, w = img.cols;
+
+		 blob = cv::dnn::blobFromImage(img, 0.007843f, Size(300, 300), 127.5 );
 		 net.setInput(blob);
 
 		 long start = GetMills();
 		 detections = net.forward();
-		 cout<<"rows:"<<detections.rows<<
-		 	" cols:"<<detections.cols<<
-		 	" dims:"<<detections.dims<<
-		 	" channles:"<<detections.channels()<<
-		 	" data:"<< detections.data<<endl;
-		 int h =  detections.rows, w = detections.cols;
+		 //cout<< detections.size<<endl;
+		 //这一步c++很重要, python不需要这一步
+         Mat detectionMat(detections.size[2], detections.size[3], CV_32F, detections.ptr<float>());
+		 //cout<< detectionMat<<endl;
 
 		 long end = GetMills();
 		 long used = end - start;
 		 cout<< GetTimestamp()<<" "<<
 		 	"ObjectDetectionDL handle a image, computing object detections took "<< used <<" ms"<< endl;
-		 //创建等差数组,类似于python的np.arange
-		 int channels = detections.channels();
-		 vector<int> inds;
-		 for (int i=0; i< channels; i++){
-		 	inds.push_back(i);
-		 }
+		
 		 //拼装返回数据
-		 stringstream desc;
-		 float confidence = 0.2; //minimum probability to filter weak detections
-
-		 /*
-		 for(int i=0; i< inds.size(); i++){
+		 string desc;
+		 float confidenceThreshold = 0.2; //minimum probability to filter weak detections
+		 
+		 for(int i=0; i< detectionMat.rows; i++){
 		 	// extract the confidence (i.e., probability) associated with the
 			// prediction
+		 	float confidence = detectionMat.at<float>(i, 2);
+		 	if(confidence > confidenceThreshold){
+		 		size_t objectClass = (size_t)(detectionMat.at<float>(i, 1));
+		 		
+		 		int xLeftBottom = static_cast<int>(detectionMat.at<float>(i, 3) * w);
+                int yLeftBottom = static_cast<int>(detectionMat.at<float>(i, 4) * h);
+                int xRightTop = static_cast<int>(detectionMat.at<float>(i, 5) * w);
+                int yRightTop = static_cast<int>(detectionMat.at<float>(i, 6) * h);
 
-		 	int ind = inds[i];
-		 	string label = labels[ind];
-		 	float probability = preds.at<float>(ind);
-		 	char buff[100];
-		 	sprintf(buff, "%.4f", probability);
-		 	if (i == 0){
-		 		stringstream text; 
-				text<<"Lable:"<<label<<","<< string(buff);	
-				cv::putText(img, text.str(), Point(5, 25),
-					cv::FONT_HERSHEY_SIMPLEX, 0.7,
-					Scalar(0,0,255), 2);
+                Rect object( (int)xLeftBottom, (int)yLeftBottom,
+                             (int)(xRightTop - xLeftBottom),
+                             (int)(yRightTop - yLeftBottom) );
+
+                rectangle(img, object, Scalar(0, 255, 0) );
+                stringstream ss;
+                ss << confidence;
+                string conf(ss.str());
+               	string label = string(labels[objectClass]) + ":" + conf;
+
+               	int baseLine = 0;
+               	Size labelSize = getTextSize(label, FONT_HERSHEY_SIMPLEX, 0.5, 1, &baseLine );
+               	rectangle(img, 
+               			  Rect(Point(xLeftBottom, yLeftBottom - labelSize.height),
+                               Size(labelSize.width, labelSize.height + baseLine) ),
+                          Scalar(255, 255, 255), CV_FILLED);
+               	putText(img, label, Point(xLeftBottom, yLeftBottom),
+                        FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0,0,0));
+               	//
+               	desc += label + "\n";
 		 	}
-		 	desc<< i+1<< " label: "<< label << 
-		 		", probalitiy: "<< string(buff)<<endl;
-
 		 }
-		 _return.desc = desc.str();
-		 vector<uchar> buf;
+		 _return.desc = desc;
+		vector<uchar> buf;
 		bool status = cv::imencode(".jpg", img, buf);
 		if (status){
 			_return.ret = string(buf.begin(), buf.end());
@@ -86,7 +94,6 @@ namespace ImageHandle{
 			cout<< GetTimestamp()<<" "<<
 				 "ObjectDetectionDL cv::imencode fail."<<endl;
 		}
-		*/
 	}
 	//这里初始化单实例
 	ObjectDetectionDL* ObjectDetectionDL::instance = new ObjectDetectionDL();

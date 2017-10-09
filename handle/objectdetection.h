@@ -5,6 +5,10 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/dnn/dnn.hpp>
+#include <opencv2/dnn.hpp>
+#include <opencv2/dnn/shape_utils.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
 
 #include <iostream>
 #include <fstream>
@@ -20,6 +24,7 @@
 
 
 using namespace cv;
+using namespace cv::dnn;
 using namespace std;
 using namespace ::ImageHandle::util;
 
