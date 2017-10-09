@@ -3,7 +3,7 @@ sftp-config.json
 *.caffemodel
 
 build/
-thridparty/*.zip
-thridparty/*.bz2
-thridparty/*.tar
-thridparty/*.gz
+thirdparty/*.zip
+thirdparty/*.bz2
+thirdparty/*.tar
+thirdparty/*.gz
