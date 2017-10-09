@@ -7,8 +7,10 @@ link_directories( ${OpenCV_LIBRARY_DIRS} )
 set(HANDLE_DIR ${CMAKE_SOURCE_DIR}/handle)
 #源文件
 set(HANDLE_SRC_FILES 
-	${HANDLE_DIR}/colordescriptor.h
 	${HANDLE_DIR}/colordescriptor.cpp
+	${HANDLE_DIR}/deeplearning.cpp
+	${HANDLE_DIR}/func.cpp
+	${HANDLE_DIR}/objectdetection.cpp
 )
 #生成库
 add_library( handle STATIC ${HANDLE_SRC_FILES})

@@ -13,4 +13,8 @@ int main()
     v2 << 4, 5 ;
     Matrix2d result = v1*v2.transpose();
     cout << "result: " << endl << result << endl;
+
+    Matrix3d m = Matrix3d::Random();
+	cout << m << endl;
+	cout << m.inverse() << endl;
 }

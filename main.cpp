@@ -5,20 +5,52 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 
+/********* start *********/
+#include <csignal>
 #include <boost/lexical_cast.hpp>
 #include "handle/colordescriptor.h"
+#include "handle/deeplearning.h"
 #include "thrift/gen-cpp/Handler.h"
 #include "util/configure.h"
+#include "handle/objectdetection.h"
+
+/********* end *********/
 
 using namespace ::apache::thrift;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 
-using boost::lexical_cast;
+
 using boost::shared_ptr;
 using namespace  ::ImageHandle;
+/********* start *********/
 using namespace ::ImageHandle::util;
+using boost::lexical_cast;
+/********* end *********/
+
+
+/********* start *********/
+void Init(){
+  //1
+  DeepLearning *dp = DeepLearning::getInstance();
+  dp->Init();
+
+  //2
+  ObjectDetectionDL *od = ObjectDetectionDL::getInstance();
+  od->Init();
+}
+
+void Release(){
+
+}
+
+void SignalHandler(int sig){
+  std::cout<<"Interrupt signal (" << sig << ") recevied"<<std::endl;
+  Release();
+  exit(0);
+}
+/********* end *********/
 
 class HandlerHandler : virtual public HandlerIf {
  public:
@@ -30,7 +62,7 @@ class HandlerHandler : virtual public HandlerIf {
     // Your implementation goes here
     //std::cout<<image.length()<<","<<image.size()<<std::endl;
     if (image.size() == 0) {
-      std::cout<<"input image size is 0byte, please input a correct image"<<std::endl;
+      std::cout<<"input image size is 0 byte, please input a correct image"<<std::endl;
       return;
     }
     ColorDescriptor cd = ColorDescriptor();
@@ -39,15 +71,18 @@ class HandlerHandler : virtual public HandlerIf {
 
   void DeepLearning(Result& _return, const std::string& image) {
     // Your implementation goes here
-    std::cout<<"DeepLearning"<<std::endl;
+    ImageHandle::DeepLearning *dp = ImageHandle::DeepLearning::getInstance();
+    dp->handle(_return, image);
   }
   void ObjectDetectionDL(Result& _return, const std::string& image) {
     // Your implementation goes here
-    std::cout<<"ObjectDetectionDL"<<std::endl;
+    ImageHandle::ObjectDetectionDL *od = ImageHandle::ObjectDetectionDL::getInstance();
+    od->handle(_return, image);
   }
 };
 
 int main(int argc, char **argv) {
+  /********* start *********/
   Configure* conf = Configure::getInstance();
   int status = conf->Parse(argv[1]);
   if( status != 0 ) {
@@ -55,6 +90,13 @@ int main(int argc, char **argv) {
     return status;
   }
   int port = lexical_cast<int>(conf->c.port);
+  //初始化
+  Init();
+  //注册处理信号
+  signal(SIGINT, SignalHandler); /* interrupt */
+  signal(SIGKILL, SignalHandler);/* kill */
+  /********* end *********/
+
   boost::shared_ptr<HandlerHandler> handler(new HandlerHandler());
   boost::shared_ptr<TProcessor> processor(new HandlerProcessor(handler));
   boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(port));

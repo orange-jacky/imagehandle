@@ -15,11 +15,11 @@ namespace ImageHandle {
 			string host;
 			string    port;
 			//deep learning
-			string dp_protoext;
+			string dp_prototxt;
 			string dp_mode;
 			string dp_labels;
 			//object dection
-			string od_protoext;
+			string od_prototxt;
 			string od_mode;
 			string od_labels;
 		};

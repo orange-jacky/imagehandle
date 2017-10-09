@@ -53,7 +53,9 @@ namespace ImageHandle {
 		//imshow("source", src);
 		//imshow("hsv:", hsv);
 		//waitKey();
-		std::cout<<"handle a image:<height,width,size>:"<<h<<","<<w<<","<<image.size()<<"byte"<<",number offeatures:"<<vect.size()<<std::endl;
+		std::cout<< GetTimestamp()<< " " <<
+			"ColorDescriptor handle a image:<height,width,size>:"<<h<<","<<w<<","<<
+			image.size()<<"byte"<<",number offeatures:"<<vect.size()<<std::endl;
 	}
 
 	void ColorDescriptor::histogram(Mat &image, InputArray mask, std::vector<double>& vect){

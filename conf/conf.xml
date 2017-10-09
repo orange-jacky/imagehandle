@@ -9,9 +9,9 @@
 		<mode>conf/deep_learning/bvlc_googlenet.caffemodel</mode>
 		<labels>conf/deep_learning/synset_words.txt</labels>
 	</deep_learning>
-	<object_dection>
-		<protoext>conf/object_dection/MobileNetSSD_deploy.prototxt.txt</protoext>
-		<mode>conf/object_dection/MobileNetSSD_deploy.caffemodel</mode>
+	<object_detection>
+		<protoext>conf/object_detection/MobileNetSSD_deploy.prototxt</protoext>
+		<mode>conf/object_detection/MobileNetSSD_deploy.caffemodel</mode>
 		<labels></labels>
-	</object_dection>
+	</object_detection>
 </root>

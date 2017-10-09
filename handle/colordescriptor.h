@@ -6,8 +6,11 @@
 #include <opencv2/highgui/highgui.hpp>
 
 #include <iostream>
+#include "../util/util_time.h"
+
 
 using namespace cv;
+using namespace ::ImageHandle::util;
 
 namespace ImageHandle {
 	class ColorDescriptor{

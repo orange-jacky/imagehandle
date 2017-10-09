@@ -1,5 +1,6 @@
 iamgehandle
 sftp-config.json
+*.caffemodel
 
 build/
 thridparty/*.zip

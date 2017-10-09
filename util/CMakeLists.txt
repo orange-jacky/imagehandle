@@ -3,6 +3,8 @@ set(UTIL_DIR ${CMAKE_SOURCE_DIR}/util)
 #源文件
 set(UTIL_SRC_FILES 
 	${UTIL_DIR}/configure.cpp
+	${UTIL_DIR}/util_string.cpp
+	${UTIL_DIR}/util_time.cpp
 )
 
 #生成库

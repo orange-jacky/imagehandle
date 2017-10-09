@@ -30,15 +30,15 @@ include_directories( /usr/local/include )
 
 #编译项目子目录
 add_subdirectory( thirdparty )
+add_subdirectory( util )
 add_subdirectory( thrift )
 add_subdirectory( handle )
-add_subdirectory( util )
 add_subdirectory( test )  #第三方依赖库测试模块
 
 #编译可执行程序
 add_executable(imagehandle main.cpp)
 target_link_libraries(imagehandle 
-		 handle
-		 mythrift
 		 util
+		 mythrift
+		 handle
 )
