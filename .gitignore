@@ -4,5 +4,6 @@ sftp-config.json
 
 build/
 thridparty/*.zip
-
-
+thridparty/*.bz2
+thridparty/*.tar
+thridparty/*.gz

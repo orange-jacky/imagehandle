@@ -14,3 +14,8 @@
 	make
 4.启动服务
 ./start.sh
+
+
+模型文件和thridparty依赖库,都比较大,就不上传到github上了,有需要的,请给我发邮件,单独发给你.
+email:
+	orange.jackylee@gmail.com

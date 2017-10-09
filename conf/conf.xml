@@ -10,7 +10,7 @@
 		<labels>conf/deep_learning/synset_words.txt</labels>
 	</deep_learning>
 	<object_detection>
-		<protoext>conf/object_detection/MobileNetSSD_deploy.prototxt</protoext>
+		<protoext>conf/object_detection/MobileNetSSD_deploy.prototxt.txt</protoext>
 		<mode>conf/object_detection/MobileNetSSD_deploy.caffemodel</mode>
 		<labels></labels>
 	</object_detection>
