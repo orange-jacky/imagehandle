@@ -13,5 +13,5 @@ set(HANDLE_SRC_FILES
 	${HANDLE_DIR}/objectdetection.cpp
 )
 #生成库
-add_library( handle STATIC ${HANDLE_SRC_FILES})
-target_link_libraries( handle ${OpenCV_LIBS})
+add_library( handle  ${HANDLE_SRC_FILES})
+target_link_libraries( handle ${OpenCV_LIBS} util) # hanle库依赖util库
