@@ -2,7 +2,7 @@
 <root>
 	<server>
 		<host>localhost</host>
-		<port>9091</port>
+		<port>9001</port>
 	</server>
 	<deep_learning>
 		<protoext>conf/deep_learning/bvlc_googlenet.prototxt</protoext>

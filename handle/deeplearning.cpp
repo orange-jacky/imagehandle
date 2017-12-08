@@ -70,7 +70,6 @@ namespace ImageHandle{
 		 	}
 		 	desc<< i+1<< " label: "<< label << 
 		 		", probalitiy: "<< string(buff)<<endl;
-
 		 }
 		 _return.desc = desc.str();
 		 vector<uchar> buf;
